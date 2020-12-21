@@ -26,13 +26,13 @@ app.get('/', (req, res) => {
 });
 //List of categories and products
 app.get('/list', (req,res) => {
-    console.log(products)
     res.send({
         categories:categoryTypes,
         list:products
     })
 })
 app.post('/cos', (req,res)=>{ 
+
     const {product_name, product_amount, kg, szt, product_select} = req.body
     const list = {
          id:1,
@@ -43,6 +43,17 @@ app.post('/cos', (req,res)=>{
          product_select
     }
      products.push(list) 
+})
+app.delete('/delete-post', (req,res) => {
+    products = products.filter(product =>{
+      
+       return product.id.toString() !== req.body.id
    })
-
+ 
+   res.send({
+       categories:categoryTypes,
+       list:products
+   })
+ 
+})
 app.listen(port);

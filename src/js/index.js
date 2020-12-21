@@ -8,6 +8,35 @@ const setListLength = (length) =>{
     const list_length = getElementById('list-length')
     list_length.innerText = `długość listy:${length}`
 }
+const filterData = ( clicked) =>{                           //filter data if there is a mach return if == 'wszystko' return whole list
+    let newList
+    fetch('/list')
+    .then(res=>res.json())
+    .then(data =>{
+      let list = data
+      clicked.toLowerCase() !== 'wszystko'?         
+      newList = list.list.filter(product =>{
+        return product.product_select.toLowerCase() === clicked.toLowerCase() 
+      }):newList = list.list
+      loadData('shopping-list', newList)
+    })
+   
+}
+const deteltePost = (id) =>{
+    'use strict'
+    let httpreq = new XMLHttpRequest()
+    httpreq.open('DELETE','/delete-post')
+    httpreq.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
+    let params ='id='+id;
+    httpreq.send(params);
+    fetch('/list')                               //fetching shopping list from get('/list)
+     .then((res) => res.json())
+     .then(data=>{
+      let list = data
+      loadData('shopping-list', list.list)      //invoke function, and pass shopping list 
+  
+    })
+}
 const loadData = (shopping_list_name, list ) =>{             //load data from server and attach it to HTML
     const shopping_list = getElementById(shopping_list_name)
     shopping_list.innerHTML = '';
@@ -42,23 +71,10 @@ const loadData = (shopping_list_name, list ) =>{             //load data from se
     querySelector('.center-shopping-list').querySelectorAll(".shopping-list-element").forEach(item=>{
       let detele = item.querySelector('.delete-styling')
       detele.onclick = () =>{
+            console.log(detele.id)
            deteltePost(detele.id)
       }
     })
-  }
-const filterData = ( clicked) =>{                           //filter data if there is a mach return if == 'wszystko' return whole list
-    let newList
-    fetch('/list')
-    .then(res=>res.json())
-    .then(data =>{
-      let list = data
-      clicked.toLowerCase() !== 'wszystko'?         
-      newList = list.list.filter(product =>{
-        return product.product_select.toLowerCase() === clicked.toLowerCase() 
-      }):newList = list.list
-      loadData('shopping-list', newList)
-    })
-   
 }
 window.onload = () =>{
     fetch('/list')
