@@ -5,6 +5,49 @@
     <title>Webpack tutorial</title>
 </head>
 <body>
-    <h1>hi</h1>
+    <section class="center-page">
+        <article class="form">
+            <form  id="form" name="form" action="/cos" method="post"> 
+                <article class="block-order">
+                  <label for="product_name">Nazwa produktu</label>
+                  <input  id="product_name" type="text"placeholder="nazwa produktu" autocomplete="off"/>
+                </article>
+               
+                <article class="block-order">
+                  <label for="product_amount">Ilość</label>
+                  <input id="product_amount" type="number"placeholder="Ilość" autocomplete="off"/>
+                </article>
+                <section class="flex-order">
+                   
+                  <label>
+                    <input name="group1"  id="choice-1" type="radio" checked />
+                    <span>kg</span>
+                  </label>
+                  <label>
+                    <input name="group1"  id="choice-2"  type="radio" />
+                    <span>szt</span>
+                  </label>
+                </section>
+                <article  >
+                  <select name="product-select" id="product_select" class="select-styling">
+                  </select>
+                </article>
+                <button type="submit" class="button">Dodaj</button>
+            </form>
+        </article>
+        
+
+      
+    </section>
+    <section id="section" class="flex-column">  
+      
+      <article id="header-article" class="flex-start-order">
+      </article> 
+      <article id="list-length">
+        <p></p>
+      </article>
+      <article id="shopping-list" class="center-shopping-list">
+      </article>
+    </section>
 <script src="/bundle.js"></script></body>
 </html>
