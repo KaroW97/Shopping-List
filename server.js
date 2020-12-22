@@ -34,7 +34,7 @@ app.get('/list', (req,res) => {
         list:products
     })
 })
-app.post('/cos', (req,res)=>{ 
+app.post('/add-data', (req,res)=>{ 
 
     const {product_name, product_amount, kg, szt, product_select} = req.body
     const list = {
