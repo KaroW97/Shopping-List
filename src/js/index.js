@@ -80,7 +80,6 @@ const reloadData = () =>{
 }
 let form = querySelector('#form')                                       //if form submited call function 
 form.addEventListener("submit", reloadData  , false);    //when form submited fetch new data
-
 window.onload = () =>{
     loadData('shopping-list') 
     fetch('/list')
