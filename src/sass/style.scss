@@ -1,7 +1,36 @@
+$light-blue-border:rgb(29, 233, 165);
+$grey-border:rgb(163, 163, 163);
+$universal-blue:rgb(54, 146, 155);
+$button-blue-hover:rgb(130, 186, 219);
+$delete-navy-blue-hover:rgb(0, 47, 255);
+$shopping-item-background:rgba(83, 200, 211, 0.25);
 @font-face{
     font-family: 'Montserrat';
     src:url('../font/Montserrat-Regular.ttf')
 }
+@mixin focus{
+    &:focus{
+        box-shadow: 0 0 2.7pt 2.5pt $shopping-item-background;
+  
+    }
+}
+@mixin button-blue{
+    background-color:$universal-blue;
+    color:white;
+    border:none;
+    outline: none;
+    cursor: pointer;
+    border-radius: 0.2rem;
+    transition: transform 0.3s linear;
+    &:hover{
+        transform: scale(1.04);
+        background-color:$button-blue-hover;
+    }
+    @include focus;
+}
+
+
+
 body, select, input{
     font-family: 'Montserrat';
 }
@@ -28,35 +57,33 @@ body, select, input{
         .flex-order{
             justify-content:space-around
         }
-        .block-order input,
-        .select-styling,
-        .button{
+        input,
+        .select-styling{
             border:none;
             outline: none;
+            cursor: pointer;
+        }
+        .select-styling{
+            @include focus;
         }
         .block-order input{
-            border-bottom:1px solid rgb(163, 163, 163);
+            text-transform: capitalize;
+            border-bottom:1px solid $grey-border;
             transition: all 0.5s linear;
             &:focus{
-                border-bottom:1px solid rgb(29, 233, 165);
+                border-bottom:1px solid $light-blue-border;
             }
         }
         .select-styling{
             width:100%;
         }
         .button{
+            padding:0.6rem 0;
+            font-size:0.95rem;
             margin-top:1rem;
-            background-color:rgb(54, 146, 155);
-            color:white;
-            border:none;
-            padding:0.4rem 0;
             width:100%;
-            border-radius: 0.2rem;
-            transition: transform 0.3s linear;
-            &:hover{
-                transform: scale(1.04);
-                background-color:rgb(130, 186, 219);
-            }
+            @include button-blue;
+            
         }
     }
 }
@@ -69,6 +96,16 @@ body, select, input{
     width:800px;
     .list-length{
         display:flex;
+        button{
+            align-self: center;
+            padding:0rem 0.3rem;
+            font-size:1.5rem;
+            width:2.5rem;
+            height:2.5rem;
+            @include button-blue; 
+         
+
+        }
         p{
             margin-right:1rem;
         }
@@ -87,7 +124,7 @@ body, select, input{
             border-radius:5px;
             transition: all 0.4s ease-out;
             &:hover{
-                color:rgb(69, 171, 180);
+                color:$universal-blue;
                 
             }   
         }
@@ -99,13 +136,12 @@ body, select, input{
         align-items:center;
         .shopping-list-element{
             display: flex;
-            
+            text-transform: capitalize;
             position: relative;
             margin: 0 0.2rem 0.2rem 0;
             width:49%;
-            background-color: rgba(83, 200, 211, 0.25);
+            background-color: $shopping-item-background;
             box-shadow: 1px 10px 19px -6px rgba(119, 118, 118, 0.4);
-           
             label{
                 font-size:0.8rem;
                 margin:1rem;
@@ -124,7 +160,7 @@ body, select, input{
                 transition:transform 0.15s ease-in-out;
                 
                 &:hover{
-                    color:rgb(0, 47, 255);
+                    color:$delete-navy-blue-hover;
                     transform: scale(1.2);
                 }
             }

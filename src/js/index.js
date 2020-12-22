@@ -39,6 +39,7 @@ const loadData = (shopping_list_name, list_filter = null, clicked ='') =>{
   
 }
 const getData = (data, shopping_list) =>{             //load data from server and attach it to HTML
+  let button =  getElementById('button')
   shopping_list.innerHTML = '';
   let weight = 0,  pice = 0;
   data.forEach( ( product, index )=>{                  //list item styling
@@ -49,13 +50,13 @@ const getData = (data, shopping_list) =>{             //load data from server an
     const shopping_item = createElement('article')
     shopping_item.classList.add('shopping-list-element')
     shopping_item.innerHTML = `
-      <label>
+      <label >
         Nazwa
-        <p>${product.product_name}</p>
+        <p id="prod-name">${product.product_name}</p>
       </label>
-      <label>
+      <label >
         Ilość/Waga
-        <p>${product.product_amount}${product.kg =='true' ? 'kg': 'szt'}</p>
+        <p id="prod-weight">${product.product_amount}${product.kg =='true' ? 'kg': 'szt'}</p>
       </label>
       <label>
         Kategoria
@@ -67,13 +68,17 @@ const getData = (data, shopping_list) =>{             //load data from server an
     `
     shopping_list.append(shopping_item)
   })
-    querySelector('.center-shopping-list').querySelectorAll(".shopping-list-element").forEach(item=>{
-      let detele = item.querySelector('.delete-styling')
-      detele.onclick = () =>{
-          deteltePost(detele.id)
-      }
-    })
-   setListLength(data.length, weight, pice)
+
+  button.onclick = () =>{
+    convert(data, data.length, weight, pice)
+  }
+  querySelector('.center-shopping-list').querySelectorAll(".shopping-list-element").forEach(item=>{
+    let detele = item.querySelector('.delete-styling')
+    detele.onclick = () =>{
+        deteltePost(detele.id)
+    }
+  })
+  setListLength(data.length, weight, pice)
 }
 const reloadData = () =>{
   loadData('shopping-list')
@@ -114,7 +119,6 @@ window.onload = () =>{
     let szt =  getElementById('choice-2')
     let product_select = querySelector('#product_select')
     let response = querySelector('.response')
-
     function sendForm(event){                                               //send to express
       event.preventDefault()
       let httpreq = new XMLHttpRequest()
@@ -135,11 +139,26 @@ window.onload = () =>{
     form.addEventListener('submit', sendForm, false)
 })(window, document)
 
-const convert = () =>{                                                  //convert into pdf or print it 
-    var win = window.open('', '', 'height=700,width=700')
+const convert = (data, data_length, weight, pice) =>{   //convert into pdf or print it 
+                           
+    let win = window.open('', '', 'height=700,width=700')
+    
     win.document.write('<html><head>')
+    win.document.write('<h3>Lista zakupów</h3>')
+    win.document.write('</head>')
+    win.document.write('<body>')
+    win.document.write(`
+      <p>
+        długość listy: <strong>${data_length}</strong>
+        waga: <strong>${weight}kg</strong>
+        sztuk:<strong>${pice}</strong>
+      </p>
+    `)
+    data.forEach((prod, index) =>{
+      win.document.write(`<p>${index+1}. 
+        ${prod.product_name} ${prod.product_amount}${prod.kg =='true' ? 'kg': 'szt'}</p>`)
+    })
+    win.document.write('</body>')
     win.document.close(); 
     win.print();
 }
-let button =  getElementById('button')
-button.addEventListener("click", convert, false);

@@ -1,14 +1,17 @@
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const path = require("path");
 
+
 module.exports = {
+    mode: 'production',
     entry: [
       './src/js/index.js',
     ],
     output: {
       path: path.resolve(__dirname, 'dist'),
       publicPath: '/',
-      filename: 'bundle.js'
+      filename: 'bundle.js',
+     
     },
     module: {
         rules: [
@@ -49,7 +52,11 @@ module.exports = {
     },
     plugins: [
         new HtmlWebpackPlugin({
-          template: path.resolve(__dirname, "src", "index.html")
+          template: path.resolve(__dirname, "src", "index.html"),
+          minify: {
+            collapseWhitespace: true
+          }
         })
-      ]
+    ],
+  
   }
