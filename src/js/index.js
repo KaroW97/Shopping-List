@@ -46,7 +46,6 @@ const getData = (data, shopping_list) =>{             //load data from server an
     product.kg === 'true' ?
       weight += parseInt(product.product_amount) : 
       pice += parseInt(product.product_amount)
-
     const shopping_item = createElement('article')
     shopping_item.classList.add('shopping-list-element')
     shopping_item.innerHTML = `
@@ -68,21 +67,14 @@ const getData = (data, shopping_list) =>{             //load data from server an
     `
     shopping_list.append(shopping_item)
   })
-
-  button.onclick = () =>{
-    convert(data, data.length, weight, pice)
-  }
-  querySelector('.center-shopping-list').querySelectorAll(".shopping-list-element").forEach(item=>{
+  button.onclick = () => convert(data, data.length, weight, pice)           //when button clicked invoke convert to pdf/print function
+  querySelector('.center-shopping-list').querySelectorAll(".shopping-list-element").forEach(item=>{   //when delete button is cleced pass the id to deletePost 
     let detele = item.querySelector('.delete-styling')
-    detele.onclick = () =>{
-        deteltePost(detele.id)
-    }
+    detele.onclick = () =>  deteltePost(detele.id)
   })
   setListLength(data.length, weight, pice)
 }
-const reloadData = () =>{
-  loadData('shopping-list')
-}
+const reloadData = () => loadData('shopping-list')
 let form = querySelector('#form')                                       //if form submited call function 
 form.addEventListener("submit", reloadData  , false);    //when form submited fetch new data
 window.onload = () =>{
@@ -102,9 +94,7 @@ window.onload = () =>{
         const p = createElement('p');                       //creating headers
         p.textContent = item;
         p.classList.add("space-category-article");
-        p.onclick = () =>{
-          loadData('shopping-list', 1, p.innerText )      //call load data and set list_filter on 1 to find only matching data
-        }
+        p.onclick = () => loadData('shopping-list', 1, p.innerText )      //call load data and set list_filter on 1 to find only matching data
         appendChild(header_article,p)                     //append header to article and then to the section
         section.prepend(header_article)
       })
@@ -118,31 +108,21 @@ window.onload = () =>{
     let kg = getElementById('choice-1') 
     let szt =  getElementById('choice-2')
     let product_select = querySelector('#product_select')
-    let response = querySelector('.response')
     function sendForm(event){                                               //send to express
       event.preventDefault()
       let httpreq = new XMLHttpRequest()
       let params ='product_name='+name.value+'&product_amount='+            //params passed to express as req.body.[something]
           product_amount.value + '&kg='+kg.checked + '&szt='+szt.checked +'&product_select='+product_select.value
-  
       httpreq.open('POST','/add-data')
       httpreq.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
-      httpreq.onreadystatechange = function () {
-        //if(httpreq.status === 200 & httpreq.readyState === 4){
-        //  console.log(httpreq.responseText)
-        //}
-       
-      }
         httpreq.send(params);
         getElementById('form').reset()
     }
     form.addEventListener('submit', sendForm, false)
 })(window, document)
 
-const convert = (data, data_length, weight, pice) =>{   //convert into pdf or print it 
-                           
+const convert = (data, data_length, weight, pice) =>{   //convert into pdf or print it                   
     let win = window.open('', '', 'height=700,width=700')
-    
     win.document.write('<html><head>')
     win.document.write('<h3>Lista zakupów</h3>')
     win.document.write('</head>')
@@ -154,7 +134,7 @@ const convert = (data, data_length, weight, pice) =>{   //convert into pdf or pr
         sztuk:<strong>${pice}</strong>
       </p>
     `)
-    data.forEach((prod, index) =>{
+    data.forEach((prod, index) =>{      //filtering over data to retrive name and quantity of the product
       win.document.write(`<p>${index+1}. 
         ${prod.product_name} ${prod.product_amount}${prod.kg =='true' ? 'kg': 'szt'}</p>`)
     })
