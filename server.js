@@ -21,6 +21,7 @@ const categoryTypes = [
   
   let products = [
   ]
+  let id = 0
 app.get('/', (req, res) => {
   res.sendFile(path.resolve(__dirname, 'index.html'));
 });
@@ -35,7 +36,7 @@ app.post('/cos', (req,res)=>{
 
     const {product_name, product_amount, kg, szt, product_select} = req.body
     const list = {
-         id:1,
+         id:id++,
          product_name,
          product_amount,
          kg,
