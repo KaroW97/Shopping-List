@@ -69,8 +69,6 @@ const loadData = (shopping_list_name, list ) =>{             //load data from se
       `
       shopping_list.append(shopping_item)
     })
-   
-
     setListLength(list.length, weight, pice)
     querySelector('.center-shopping-list').querySelectorAll(".shopping-list-element").forEach(item=>{
       let detele = item.querySelector('.delete-styling')
@@ -80,7 +78,6 @@ const loadData = (shopping_list_name, list ) =>{             //load data from se
     })
 }
 window.onload = () =>{
-   
     fetch('/list')
     .then(res=>res.json())
     .then(data=>{
@@ -89,6 +86,7 @@ window.onload = () =>{
       let pices = 0
       const section = getElementById('section');
       const header_article = getElementById('header-article')
+      loadData('shopping-list', arr.list) 
       arr.categories.forEach( (item) => {         //filtering categories
         item.kg === 'true' ?
             weight += parseInt(item.product_amount) : 
@@ -99,7 +97,6 @@ window.onload = () =>{
           option.text = item
           getElementById('product_select').add(option);
         }
-        
         const p = createElement('p');             //creating headers
         p.textContent = item;
         p.classList.add("space-category-article");
@@ -108,6 +105,7 @@ window.onload = () =>{
         }
         appendChild(header_article,p)                   //append header to article and then to the section
         section.prepend(header_article)
+       
         setListLength(arr.length, weight, pices)                 //set list lenght
       })
     })
@@ -137,8 +135,10 @@ window.onload = () =>{
        
       }
         httpreq.send(params);
+        getElementById('form').reset()
     }
     form.addEventListener('submit', sendForm, false)
+   
   
   })(window, document)
 function observe_list_changes (event){                      //when form submited fetch new data
@@ -147,9 +147,19 @@ function observe_list_changes (event){                      //when form submited
      .then(data=>{
       let list = data
       loadData('shopping-list', list.list)                  //invoke function, and pass shopping list 
-   
      })
 } 
-
 let form = querySelector('#form')                           //if form submited call function 
 form.addEventListener("submit", observe_list_changes, false);
+
+
+const convert = () =>{
+    console.log('jestem')
+    var win = window.open('', '', 'height=700,width=700')
+    win.document.write('<html><head>')
+    win.document.close(); 
+    win.print();
+}
+
+let button =  getElementById('button')
+button.addEventListener("click", convert, false);
